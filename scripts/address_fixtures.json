@@ -1,0 +1,32 @@
+{
+  "accept": [
+    {"raw": "https://duck-xxxx.local:8000/m", "page": "mobile", "scheme": "https", "host": "duck-xxxx.local", "port": 8000, "url": "https://duck-xxxx.local:8000/m"},
+    {"raw": "http://duck-xxxx.local:8000/m", "page": "mobile", "scheme": "http", "host": "duck-xxxx.local", "port": 8000, "url": "http://duck-xxxx.local:8000/m"},
+    {"raw": "https://10.42.0.1:8000/m", "page": "mobile", "scheme": "https", "host": "10.42.0.1", "port": 8000, "url": "https://10.42.0.1:8000/m"},
+    {"raw": "http://192.168.1.23:8000/m", "page": "mobile", "scheme": "http", "host": "192.168.1.23", "port": 8000, "url": "http://192.168.1.23:8000/m"},
+    {"raw": "duck-xxxx.local", "page": "mobile", "scheme": "https", "host": "duck-xxxx.local", "port": 8000, "url": "https://duck-xxxx.local:8000/m"},
+    {"raw": "duck-xxxx.local", "page": "desktop", "scheme": "https", "host": "duck-xxxx.local", "port": 8000, "url": "https://duck-xxxx.local:8000/"},
+    {"raw": "http://duck-xxxx.local", "page": "desktop", "scheme": "http", "host": "duck-xxxx.local", "port": 8000, "url": "http://duck-xxxx.local:8000/"},
+    {"raw": "https://duck-xxxx:8000/", "page": "mobile", "scheme": "https", "host": "duck-xxxx", "port": 8000, "url": "https://duck-xxxx:8000/m"},
+    {"raw": "  HTTPS://Duck-XXXX.local:8000/ignored  ", "page": "mobile", "scheme": "https", "host": "duck-xxxx.local", "port": 8000, "url": "https://duck-xxxx.local:8000/m"},
+    {"raw": "localhost:8000", "page": "desktop", "scheme": "https", "host": "localhost", "port": 8000, "url": "https://localhost:8000/"},
+    {"raw": "http://127.0.0.1:18080", "page": "mobile", "scheme": "http", "host": "127.0.0.1", "port": 18080, "url": "http://127.0.0.1:18080/m"},
+    {"raw": "https://[::1]:8000", "page": "mobile", "scheme": "https", "host": "::1", "port": 8000, "url": "https://[::1]:8000/m"}
+  ],
+  "reject": [
+    {"raw": "", "page": "mobile", "error": "empty"},
+    {"raw": "   ", "page": "mobile", "error": "empty"},
+    {"raw": "ftp://duck-xxxx.local:8000/m", "page": "mobile", "error": "invalidScheme"},
+    {"raw": "file:///etc/passwd", "page": "mobile", "error": "invalidScheme"},
+    {"raw": "javascript:alert(1)", "page": "mobile", "error": "invalidScheme"},
+    {"raw": "https://user:pass@duck-xxxx.local:8000/m", "page": "mobile", "error": "credentialsForbidden"},
+    {"raw": "user:pass@duck-xxxx.local", "page": "mobile", "error": "credentialsForbidden"},
+    {"raw": "https:///m", "page": "mobile", "error": "missingHost"},
+    {"raw": "https://duck-xxxx.local:99999/m", "page": "mobile", "error": "invalidPort"},
+    {"raw": "https://duck-xxxx.local:0/m", "page": "mobile", "error": "invalidPort"},
+    {"raw": "http://999.168.1.23:8000/m", "page": "mobile", "error": "invalidHost"},
+    {"raw": "http://192.168.1.023:8000/m", "page": "mobile", "error": "invalidHost"},
+    {"raw": "https://.local:8000/m", "page": "mobile", "error": "invalidHost"},
+    {"raw": "https://duck..local:8000/m", "page": "mobile", "error": "invalidHost"}
+  ]
+}

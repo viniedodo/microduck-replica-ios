@@ -1,0 +1,54 @@
+name: Build unsigned IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run address parser tests
+        run: |
+          python3 scripts/test_robot_address.py
+          swiftc -o "$RUNNER_TEMP/robot-address-tests" \
+            MicroduckStudio/RobotAddress.swift \
+            Tools/RobotAddressTests.swift
+          "$RUNNER_TEMP/robot-address-tests" scripts/address_fixtures.json
+
+      - name: Show Xcode and scheme
+        run: |
+          xcodebuild -version
+          xcodebuild -list -project MicroduckStudio.xcodeproj
+
+      - name: Archive unsigned device build
+        run: |
+          xcodebuild archive \
+            -project MicroduckStudio.xcodeproj \
+            -scheme MicroduckStudio \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$PWD/build/MicroduckStudio.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY= \
+            DEVELOPMENT_TEAM= \
+            PROVISIONING_PROFILE_SPECIFIER=
+
+      - name: Package and statically verify unsigned IPA
+        run: scripts/package_and_verify.sh "$PWD/build/MicroduckStudio.xcarchive" "$PWD/build/MicroduckStudio-unsigned.ipa"
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: MicroduckStudio-unsigned-ipa
+          path: build/MicroduckStudio-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
